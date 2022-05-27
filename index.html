@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+
+  <title>Frontend Mentor | Advice generator app</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+  <main class="main-layout">
+    <div class="advice-card">
+      <h2 class="advice-head">
+        Advice #<span id="advice-id"></span>
+      </h2>
+      <p id="advice-text" class="advice-description">
+      </p>
+      <div class="advice-footer">
+        <picture>
+          <source media="(min-width: 1440px)" srcset="./images/pattern-divider-desktop.svg">
+          <source media="(min-width: 375px)" srcset="./images/pattern-divider-mobile.svg">
+          <img src="./images/pattern-divider-mobile.svg" alt="Line icon below the advice" class="picture-footer" />
+        </picture>
+        <button type="button" class="button-footer-random" id="button-randomize">
+          <img src="./images/icon-dice.svg" alt="Icon dive random" class="button-randomize-img" />
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const $advice_id = document.querySelector('#advice-id');
+    const $advice_text = document.querySelector('#advice-text');
+    const $button_randomize = document.querySelector('#button-randomize');
+    const URL = 'https://api.adviceslip.com/advice';
+
+    function fetchRandomAdvice() {
+      fetch('https://api.adviceslip.com/advice')
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          $advice_id.textContent = data.slip.id;
+          $advice_text.textContent = `"${data.slip.advice}"`;
+        }).catch(function (error) {
+          console.log(error);
+        })
+    }
+
+    fetchRandomAdvice();
+
+    $button_randomize.addEventListener('click', fetchRandomAdvice)
+  </script>
+</body>
+
+</html>
